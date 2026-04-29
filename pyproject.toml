@@ -21,5 +21,8 @@ Homepage = "https://whiteboxhq.ai"
 Documentation = "https://whiteboxhq.ai/docs"
 Repository = "https://github.com/whiteboxhq/whitebox-python"
 
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
 [tool.setuptools.packages.find]
 include = ["whitebox*"]

@@ -52,6 +52,7 @@ class Whitebox:
         threshold: float = 0.75,
         sync: bool = True,
         mode: str = "standard",
+        models: Optional[list[str]] = None,
     ) -> Decision:
         """Submit a single classification query.
 
@@ -77,6 +78,8 @@ class Whitebox:
         }
         if prompt is not None:
             payload["prompt"] = prompt
+        if models is not None:
+            payload["models"] = models
 
         data = self._request("POST", "/decide", json=payload)
         return Decision.from_dict(data)
@@ -228,6 +231,16 @@ class Whitebox:
             "PATCH", f"/reviews/{review_id}", json={"answer": answer}
         )
         return Review.from_dict(data)
+
+    # ── Models ────────────────────────────────────────────────────────
+
+    def models(self) -> list[dict]:
+        """List supported models.
+
+        Returns:
+            A list of model info dicts.
+        """
+        return self._request("GET", "/models")
 
     # ── Internal ──────────────────────────────────────────────────────
 

@@ -1,13 +1,13 @@
 [build-system]
 requires = ["setuptools>=64", "wheel"]
-build-backend = "setuptools.backends._legacy:_Backend"
+build-backend = "setuptools.build_meta"
 
 [project]
-name = "whitebox"
+name = "whiteboxhq"
 version = "0.1.0"
 description = "Python SDK for the WhiteBox AI decision observability API"
 readme = "README.md"
-license = "MIT"
+license = {text = "MIT"}
 requires-python = ">=3.9"
 authors = [
     { name = "Spaceman Tech", email = "hello@spacemantech.ai" },
@@ -19,7 +19,7 @@ dependencies = [
 [project.urls]
 Homepage = "https://whiteboxhq.ai"
 Documentation = "https://whiteboxhq.ai/docs"
-Repository = "https://github.com/spacemantech/whitebox-python"
+Repository = "https://github.com/whiteboxhq/whitebox-python"
 
 [tool.setuptools.packages.find]
 include = ["whitebox*"]

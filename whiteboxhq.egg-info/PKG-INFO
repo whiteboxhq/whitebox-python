@@ -1,0 +1,119 @@
+Metadata-Version: 2.4
+Name: whiteboxhq
+Version: 0.1.0
+Summary: Python SDK for the WhiteBox AI decision observability API
+Home-page: https://github.com/spacemantech/whitebox-python
+Author: Spaceman Tech
+Author-email: Spaceman Tech <hello@spacemantech.ai>
+License: MIT
+Project-URL: Homepage, https://whiteboxhq.ai
+Project-URL: Documentation, https://whiteboxhq.ai/docs
+Project-URL: Repository, https://github.com/whiteboxhq/whitebox-python
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.28
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+# WhiteBox Python SDK
+
+Python client for the [WhiteBox](https://whiteboxhq.ai) AI decision observability API.
+
+## Installation
+
+```bash
+pip install whitebox
+```
+
+## Quick Start
+
+```python
+from whitebox import Whitebox
+
+client = Whitebox(api_key="wb_your_api_key")
+
+# Make a single decision
+decision = client.decide(
+    input="The customer wants to cancel their subscription and get a refund",
+    options=["approve_refund", "offer_discount", "escalate_to_manager"],
+)
+
+print(decision.value)       # "approve_refund"
+print(decision.confidence)  # 0.92
+print(decision.verdict)     # "consensus"
+```
+
+## Fast Mode
+
+Use fast mode for lower-latency decisions with fewer model runs:
+
+```python
+decision = client.decide_fast(
+    input="Is this email spam?",
+    options=["spam", "not_spam"],
+)
+```
+
+## Bulk Decisions
+
+Submit up to 100 decisions in a single request:
+
+```python
+batch = client.decide_bulk(
+    items=[
+        {"input": "Unauthorized charge on my card"},
+        {"input": "When does my subscription renew?"},
+        {"input": "I want to upgrade my plan"},
+    ],
+    options=["billing", "account", "upgrade"],
+    webhook_url="https://example.com/webhook",
+)
+
+print(batch.id)     # "batch_abc123"
+print(batch.total)  # 3
+
+# Poll for results
+batch = client.get_batch(batch.id)
+if batch.status == "completed":
+    results = client.get_batch_results(batch.id)
+```
+
+## Human Review
+
+When a decision is escalated (low confidence), resolve it manually:
+
+```python
+reviews = client.list_reviews()
+for review in reviews:
+    print(review.input, review.options, review.confidence)
+
+# Resolve a review
+client.resolve_review(review_id=42, answer="approve_refund")
+```
+
+## Error Handling
+
+```python
+from whitebox import (
+    WhiteboxError,
+    AuthenticationError,
+    RateLimitError,
+    InsufficientCreditsError,
+)
+
+try:
+    decision = client.decide(input="...", options=["a", "b"])
+except AuthenticationError:
+    print("Check your API key")
+except InsufficientCreditsError:
+    print("Add credits at https://whiteboxhq.ai/billing")
+except RateLimitError as e:
+    print(f"Rate limited. Retry after {e.retry_after} seconds")
+except WhiteboxError as e:
+    print(f"API error {e.status_code}: {e}")
+```
+
+## Documentation
+
+Full API docs: [https://whiteboxhq.ai/docs](https://whiteboxhq.ai/docs)

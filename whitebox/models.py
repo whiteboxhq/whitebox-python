@@ -71,6 +71,10 @@ class Batch:
     completed_at: Optional[str] = None
     created_at: Optional[str] = None
 
+    @property
+    def is_complete(self) -> bool:
+        return self.status == "complete"
+
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Batch:
         return cls(

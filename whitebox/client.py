@@ -234,13 +234,16 @@ class Whitebox:
 
     # ── Models ────────────────────────────────────────────────────────
 
-    def models(self) -> list[dict]:
+    def list_models(self) -> dict:
         """List supported models.
 
         Returns:
-            A list of model info dicts.
+            A dict with 'models' (list) and 'defaults' (standard/fast model IDs).
         """
         return self._request("GET", "/models")
+
+    # Alias for backward compatibility
+    models = list_models
 
     # ── Internal ──────────────────────────────────────────────────────
 

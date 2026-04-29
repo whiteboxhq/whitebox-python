@@ -1,6 +1,7 @@
 README.md
 pyproject.toml
 setup.py
+tests/test_client.py
 whitebox/__init__.py
 whitebox/client.py
 whitebox/exceptions.py

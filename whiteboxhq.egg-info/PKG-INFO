@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: whiteboxhq
-Version: 0.1.0
+Version: 0.1.1
 Summary: Python SDK for the WhiteBox AI decision observability API
 Home-page: https://github.com/spacemantech/whitebox-python
 Author: Spaceman Tech
@@ -12,6 +12,8 @@ Project-URL: Repository, https://github.com/whiteboxhq/whitebox-python
 Requires-Python: >=3.9
 Description-Content-Type: text/markdown
 Requires-Dist: requests>=2.28
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
 Dynamic: author
 Dynamic: home-page
 Dynamic: requires-python
